@@ -5,11 +5,16 @@
     <%= link_to tag.name, tag_path(tag) %>
   <% end %>
 </p>
-<p><%= image_tag @article.image.url %></p>
+<% if @article.image.exists? %>
+  <p><%= image_tag @article.image.url %></p>
+<% end %>  
 <p><%= @article.body %></p>
 <h3>Comments (<%= @article.comments.size %>)</h3>
 <%= render partial: 'articles/comment', collection: @article.comments %>
 <%= render partial: 'comments/form' %>
 <%= link_to "<< Back to Articles List", articles_path %>
-<%= link_to "delete", article_path(@article), method: :delete, confirm: "Really delete?" %>
-<%= link_to "edit", edit_article_path(@article) %>
+<% if logged_in? %>
+  <%= link_to  "show", article_path(@article) %>
+  <%= link_to "delete", article_path(@article), method: :delete, confirm: "Really delete?" %>
+  <%= link_to "edit", edit_article_path(@article) %>
+<% end %>
